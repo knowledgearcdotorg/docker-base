@@ -6,12 +6,13 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN apt-get update
 
 RUN apt-get upgrade -y && \
-    apt-get install -y supervisor && \
+    apt-get install -y supervisor cron && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord/cron.conf /etc/supervisor/conf.d/cron.conf
 
 RUN mkdir /run/supervisord
 
